@@ -1,11 +1,17 @@
-import firebase from "firebase"
+// import firebase from "firebase"
+import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth"
+import firebaseApp from "./firebase"
 
 class AuthService {
   login(providerName) {
-    // github / google 등등
-    const authProvider = new firebase.auth[`${providerName}AuthProvider`]()
+    // provider에 따라 달라짐
+    // const provider = new `${providerName}AuthProvider`() // 안됨
 
-    return firebase.auth().signInWithPopup(authProvider)
+    let provider
+    if (providerName === "Google") provider = new GoogleAuthProvider()
+    if (providerName === "Github") provider = new GithubAuthProvider()
+    const auth = getAuth()
+    return signInWithPopup(auth, provider)
   }
 }
 
